@@ -34,6 +34,12 @@ class ContactService {
     return await cursor.toArray();
   }
 
+  async findById(id) {
+    return await this.Contact.findOne({
+      _id: ObjectId.isValid(id) ? new ObjectId(id) : null,
+    });
+  }
+
   async findByName(name) {
     return await this.find({
       name: { $regex: new RegExp(name), $options: "i" },
@@ -67,7 +73,7 @@ class ContactService {
   async deleteAll() {
     const result = await this.Contact.deleteMany({});
     return result.deletedCount;
-    }
+  }
 }
 
 module.exports = ContactService;
